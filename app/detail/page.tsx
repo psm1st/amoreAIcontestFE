@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import ProductDetailHeader from '../_components/ProductDetailHeader';
 import ProductDetailContent from '../_components/ProductDetailContent';
 import RatingDistribution from '../_components/RatingDistribution';
+import SentimentDistribution from '../_components/SentimentDistribution';
 import { products } from '@/types/products';
 import Header from '../_components/Header';
 import { type AnalyzeType } from '../_components/AnalyzeChip';
@@ -37,15 +38,26 @@ function DetailContent() {
           <div className="self-stretch justify-start text-zinc-900 text-xl font-bold font-['Pretendard'] leading-[30px]">
             리뷰 분석 결과
           </div>
-          <RatingDistribution 
-            ratings={[
-              { rating: 5, percentage: 75 },
-              { rating: 4, percentage: 50 },
-              { rating: 3, percentage: 25 },
-              { rating: 2, percentage: 25 },
-              { rating: 1, percentage: 25 },
-            ]}
-          />
+          <div className="flex gap-5">
+            <RatingDistribution 
+              ratings={[
+                { rating: 5, percentage: 75 },
+                { rating: 4, percentage: 50 },
+                { rating: 3, percentage: 25 },
+                { rating: 2, percentage: 25 },
+                { rating: 1, percentage: 25 },
+              ]}
+            />
+            <SentimentDistribution 
+              sentiments={[
+                { type: 'veryPositive', percentage: 75 },
+                { type: 'positive', percentage: 75 },
+                { type: 'neutral', percentage: 50 },
+                { type: 'negative', percentage: 25 },
+                { type: 'veryNegative', percentage: 25 },
+              ]}
+            />
+          </div>
         </div>
       </div>
     </>
