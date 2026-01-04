@@ -117,3 +117,33 @@ export interface ReviewListResponse {
   };
 }
 
+export interface CanvasSuggestion {
+  section_title: string;
+  layout_type: string;
+  copywriting: string;
+  visual_description: string;
+  reasoning: string;
+}
+
+export interface InsightData {
+  product_id: number;
+  product_name: string;
+  comparison: {
+    matches: string[];
+    mismatches: string[];
+  };
+  strategy: {
+    appeals: string[];
+    strategies: string[];
+  };
+  canvas_suggestion: CanvasSuggestion[];
+  references: number[];
+}
+
+export interface InsightResponse {
+  status: string;
+  message: string;
+  code: number;
+  data: InsightData;
+}
+

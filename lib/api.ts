@@ -1,4 +1,4 @@
-import { ProductListResponse, ProductListParams, ProductDetailResponse, ProductRatingsResponse, ProductSentimentResponse, ProductImagesResponse, ReviewListResponse, ReviewListParams } from '@/types/api';
+import { ProductListResponse, ProductListParams, ProductDetailResponse, ProductRatingsResponse, ProductSentimentResponse, ProductImagesResponse, ReviewListResponse, ReviewListParams, InsightResponse } from '@/types/api';
 
 const API_BASE_URL = (process.env.NEXT_PUBLIC_API_BASE_URL || '').replace(/\/$/, '');
 
@@ -207,6 +207,36 @@ export async function fetchReviewList(
 
   if (data.code !== 200) {
     throw new Error(data.message || 'Failed to fetch reviews');
+  }
+
+  return data;
+}
+
+export async function fetchInsights(
+  productId: number,
+  isServer: boolean = false
+): Promise<InsightResponse> {
+  if (isServer && !API_BASE_URL) {
+    throw new Error('NEXT_PUBLIC_API_BASE_URL is required for server-side requests');
+  }
+
+  const url = API_BASE_URL
+    ? `${API_BASE_URL}/api/v1/insights/${productId}/analyze`
+    : `/api/v1/insights/${productId}/analyze`;
+
+  const response = await fetch(url, {
+    method: 'POST',
+    cache: 'no-store',
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch insights');
+  }
+
+  const data: InsightResponse = await response.json();
+
+  if (data.code !== 200) {
+    throw new Error(data.message || 'Failed to fetch insights');
   }
 
   return data;
