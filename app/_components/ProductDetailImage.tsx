@@ -12,7 +12,13 @@ export default function ProductDetailImage({ images, alt = '상세 페이지' }:
   const [isExpanded, setIsExpanded] = useState(false);
 
   if (!images || images.length === 0) {
-    return null;
+    return (
+      <div className="w-96 h-[540px] rounded-3xl bg-neutral-100 flex items-center justify-center">
+        <div className="text-zinc-500 text-base font-medium font-['Pretendard']">
+          상세 이미지가 없습니다
+        </div>
+      </div>
+    );
   }
   const firstImage = images[0];
 
