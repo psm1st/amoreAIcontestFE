@@ -32,6 +32,14 @@ export default function HomeContent({ initialData }: HomeContentProps) {
     );
   }, [selectedCategoryInfo]);
 
+  const apiSort = useMemo(() => {
+    // '신상품순'은 None이므로 null 반환, API에서 None=신상품순으로 처리
+    if (selectedSort === '신상품순') return null;
+    if (selectedSort === '판매순') return 'SOLD';
+    if (selectedSort === '평점순') return 'RATING';
+    return null;
+  }, [selectedSort]);
+
   const sortOptions: SortOption[] = ['신상품순', '판매순', '평점순'];
 
   return (
@@ -80,7 +88,7 @@ export default function HomeContent({ initialData }: HomeContentProps) {
             </div>
 
             <div className="flex-1 inline-flex flex-col justify-start items-start gap-10 ml-1">
-              <ProductList initialData={initialData} category={apiCategory} />
+              <ProductList initialData={initialData} category={apiCategory} sort={apiSort} />
             </div>
           </div>
         </div>

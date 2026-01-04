@@ -9,12 +9,14 @@ import { ProductListResponse } from '@/types/api';
 interface ProductListProps {
   initialData?: ProductListResponse;
   category?: string | null;
+  sort?: string | null;
 }
 
-export default function ProductList({ initialData, category }: ProductListProps) {
+export default function ProductList({ initialData, category, sort }: ProductListProps) {
   const { products, isLoading, hasNext, error, loadMore, totalElements } =
     useProductList({
       category,
+      sort,
       size: 10,
       initialData,
     });

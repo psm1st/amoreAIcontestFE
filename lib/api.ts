@@ -11,6 +11,9 @@ export async function fetchProductList(
   if (params.category) {
     queryParams.append('category', params.category);
   }
+  if (params.sort) {
+    queryParams.append('sort', params.sort);
+  }
   if (params.lastId !== null && params.lastId !== undefined) {
     queryParams.append('lastId', params.lastId.toString());
   }

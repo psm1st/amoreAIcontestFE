@@ -22,6 +22,7 @@ export interface ProductListResponse {
 
 export interface ProductListParams {
   category?: string | null;
+  sort?: string | null;
   lastId?: number | null;
   size?: number;
 }

@@ -5,6 +5,7 @@ import { ProductListResponse, ProductListParams, ProductItem } from '@/types/api
 
 interface UseProductListOptions {
   category?: string | null;
+  sort?: string | null;
   size?: number;
   initialData?: ProductListResponse;
 }
@@ -20,6 +21,7 @@ interface UseProductListReturn {
 
 export function useProductList({
   category,
+  sort,
   size = 10,
   initialData,
 }: UseProductListOptions = {}): UseProductListReturn {
@@ -49,6 +51,9 @@ export function useProductList({
         const queryParams = new URLSearchParams();
         if (params.category) {
           queryParams.append('category', params.category);
+        }
+        if (params.sort) {
+          queryParams.append('sort', params.sort);
         }
         if (params.lastId !== null && params.lastId !== undefined) {
           queryParams.append('lastId', params.lastId.toString());
@@ -94,6 +99,7 @@ export function useProductList({
     try {
       const data = await fetchProducts({
         category,
+        sort,
         lastId,
         size,
       });
@@ -110,24 +116,28 @@ export function useProductList({
     } catch (err) {
       console.error('Error loading more products:', err);
     }
-  }, [category, lastId, size, isLoading, hasNext, fetchProducts]);
+  }, [category, sort, lastId, size, isLoading, hasNext, fetchProducts]);
 
   const isInitialMount = useRef(true);
   const prevCategoryRef = useRef<string | null | undefined>(category);
+  const prevSortRef = useRef<string | null | undefined>(sort);
 
   useEffect(() => {
     // Skip initial mount if we have initialData
     if (isInitialMount.current && initialData) {
       isInitialMount.current = false;
       prevCategoryRef.current = category;
+      prevSortRef.current = sort;
       return;
     }
-    if (prevCategoryRef.current === category) {
+    // Only refetch if category or sort has actually changed
+    if (prevCategoryRef.current === category && prevSortRef.current === sort) {
       return;
     }
 
     isInitialMount.current = false;
     prevCategoryRef.current = category;
+    prevSortRef.current = sort;
 
     const resetAndFetch = async () => {
       setProducts([]);
@@ -138,6 +148,7 @@ export function useProductList({
       try {
         const data = await fetchProducts({
           category,
+          sort,
           lastId: null,
           size,
         });
@@ -158,7 +169,7 @@ export function useProductList({
 
     resetAndFetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category, size]);
+  }, [category, sort, size]);
 
   return {
     products,
