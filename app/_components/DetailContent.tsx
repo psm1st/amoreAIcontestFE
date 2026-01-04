@@ -17,7 +17,6 @@ import { useProductImages } from '@/hooks/useProductImages';
 import { useInsights } from '@/hooks/useInsights';
 import { ProductDetailResponse, ProductRatingsResponse, ProductSentimentResponse, ProductImagesResponse, ReviewListResponse, InsightResponse } from '@/types/api';
 import { mapApiCategoryToKorean } from '@/types/categories';
-import { type AnalyzeType } from './AnalyzeChip';
 
 interface DetailContentProps {
   initialData?: ProductDetailResponse;
@@ -94,7 +93,6 @@ function DetailContentInner({ initialData, initialRatingsData, initialSentimentD
             </div>
             <ProductDetailContent 
               keywords={insights?.keywords}
-              analyzeTypes={['water', 'waterdrop', 'skin', 'product', 'leaf', 'smooth', 'texture'] as AnalyzeType[]}
             />
           </div>
           <div className="flex-1 flex flex-col gap-5">

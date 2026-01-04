@@ -19,15 +19,16 @@ export default function ProductDetailContent({ keywords = [], analyzeTypes = [] 
   const keywordsAsTypes: AnalyzeType[] = keywords
     .map((keyword) => keywordToAnalyzeTypeMap[keyword])
     .filter((type): type is AnalyzeType => type !== undefined);
-  const displayTypes = [...keywordsAsTypes, ...analyzeTypes]
-    .filter((value, index, self) => self.indexOf(value) === index);
+  const displayTypes = keywordsAsTypes.length > 0 
+    ? keywordsAsTypes 
+    : analyzeTypes;
 
   return (
     <div className="w-[375px] h-[335px] p-6 bg-neutral-100 rounded-3xl flex flex-col gap-2.5">
       <div className="text-zinc-900 text-base font-semibold font-['Pretendard'] leading-6 shrink-0">
         상세 페이지 주요 내용
       </div>
-      <div className="flex flex-wrap gap-x-4 gap-y-2 overflow-y-auto flex-1 min-h-0">
+      <div className="flex flex-wrap gap-x-2 gap-y-1.5 overflow-y-auto flex-1 min-h-0">
         {displayTypes.map((type) => (
           <AnalyzeChip key={type} type={type} />
         ))}
