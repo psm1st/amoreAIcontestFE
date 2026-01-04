@@ -43,3 +43,18 @@ export interface ProductDetailResponse {
   data: ProductDetailData;
 }
 
+export interface ProductRatingsData {
+  star_1: number;
+  star_2: number;
+  star_3: number;
+  star_4: number;
+  star_5: number;
+}
+
+export interface ProductRatingsResponse {
+  status: string;
+  message: string;
+  code: number;
+  data: ProductRatingsData;
+}
+

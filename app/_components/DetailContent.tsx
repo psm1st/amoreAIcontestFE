@@ -11,15 +11,17 @@ import InsightSection from './InsightSection';
 import RatingDistribution from './RatingDistribution';
 import SentimentDistribution from './SentimentDistribution';
 import { useProductDetail } from '@/hooks/useProductDetail';
-import { ProductDetailResponse } from '@/types/api';
+import { useProductRatings } from '@/hooks/useProductRatings';
+import { ProductDetailResponse, ProductRatingsResponse } from '@/types/api';
 import { mapApiCategoryToKorean } from '@/types/categories';
 import { type AnalyzeType } from './AnalyzeChip';
 
 interface DetailContentProps {
   initialData?: ProductDetailResponse;
+  initialRatingsData?: ProductRatingsResponse;
 }
 
-function DetailContentInner({ initialData }: DetailContentProps) {
+function DetailContentInner({ initialData, initialRatingsData }: DetailContentProps) {
   const searchParams = useSearchParams();
   const productId = searchParams.get('id');
   
@@ -27,6 +29,11 @@ function DetailContentInner({ initialData }: DetailContentProps) {
   const { product, isLoading, error } = useProductDetail({
     productId: productIdNumber,
     initialData,
+  });
+
+  const { ratings } = useProductRatings({
+    productId: productIdNumber,
+    initialData: initialRatingsData,
   });
 
   const categoryMapping = product?.category
@@ -73,13 +80,7 @@ function DetailContentInner({ initialData }: DetailContentProps) {
             </div>
             <div className="flex gap-5">
               <RatingDistribution 
-                ratings={[
-                  { rating: 5, percentage: 75 },
-                  { rating: 4, percentage: 50 },
-                  { rating: 3, percentage: 25 },
-                  { rating: 2, percentage: 25 },
-                  { rating: 1, percentage: 25 },
-                ]}
+                ratings={ratings}
               />
               <SentimentDistribution 
                 sentiments={[
@@ -158,10 +159,10 @@ function DetailContentInner({ initialData }: DetailContentProps) {
   );
 }
 
-export default function DetailContent({ initialData }: DetailContentProps) {
+export default function DetailContent({ initialData, initialRatingsData }: DetailContentProps) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <DetailContentInner initialData={initialData} />
+      <DetailContentInner initialData={initialData} initialRatingsData={initialRatingsData} />
     </Suspense>
   );
 }
