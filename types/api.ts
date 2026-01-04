@@ -26,3 +26,20 @@ export interface ProductListParams {
   size?: number;
 }
 
+export interface ProductDetailData {
+  name: string;
+  category: string;
+  sold_count: string;
+  liked_count: string;
+  review_count: string;
+  rating: number;
+  thumbnail_url: string;
+}
+
+export interface ProductDetailResponse {
+  status: string;
+  message: string;
+  code: number;
+  data: ProductDetailData;
+}
+
