@@ -40,7 +40,10 @@ export interface ProductDetailResponse {
   status: string;
   message: string;
   code: number;
-  data: ProductDetailData;
+  data: {
+    product_id: number;
+    product_detail: ProductDetailData;
+  };
 }
 
 export interface ProductRatingsData {

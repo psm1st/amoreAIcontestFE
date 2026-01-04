@@ -19,7 +19,7 @@ export function useProductDetail({
   initialData,
 }: UseProductDetailOptions): UseProductDetailReturn {
   const [product, setProduct] = useState<ProductDetailData | null>(
-    initialData?.data || null
+    initialData?.data?.product_detail || null
   );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -53,7 +53,7 @@ export function useProductDetail({
           throw new Error(data.message || 'Failed to fetch product detail');
         }
 
-        setProduct(data.data);
+        setProduct(data.data.product_detail);
       } catch (err) {
         const errorMessage =
           err instanceof Error ? err.message : 'Unknown error occurred';
